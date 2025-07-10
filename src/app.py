@@ -10,7 +10,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 import os
 from pathlib import Path
-from backend import routers, database
 
 # Initialize web host
 app = FastAPI(
@@ -18,8 +17,14 @@ app = FastAPI(
     description="API for viewing and signing up for extracurricular activities"
 )
 
-# Initialize database with sample data if empty
-database.init_database()
+try:
+    from backend import routers, database
+    database.init_database()
+except:
+    # Fallback to in-memory database if MongoDB is not available
+    from backend import routers
+    from backend import database_memory as database
+    database.init_database()
 
 # Mount the static files directory for serving the frontend
 current_dir = Path(__file__).parent

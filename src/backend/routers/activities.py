@@ -6,7 +6,11 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from typing import Dict, Any, Optional, List
 
-from ..database import activities_collection, teachers_collection
+try:
+    from ..database import activities_collection, teachers_collection
+except:
+    # Fallback to in-memory database if MongoDB is not available
+    from ..database_memory import activities_collection, teachers_collection
 
 router = APIRouter(
     prefix="/activities",
