@@ -1,0 +1,201 @@
+name: 👩‍🏫 Administrative Feature Request
+description: Request new administrative features for teachers and school staff
+title: "[Admin]: "
+labels: ["admin", "teacher-tools", "enhancement", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for requesting an administrative feature! Please provide detailed information to help our Copilot coding agent understand your administrative needs.
+
+  - type: input
+    id: admin-feature-title
+    attributes:
+      label: Administrative Feature Title
+      description: Clear title describing the administrative feature you need
+      placeholder: "Example: Add ability to send email notifications to all students in an activity"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: admin-category
+    attributes:
+      label: Administrative Feature Category
+      description: What type of administrative feature do you need?
+      options:
+        - Student management (registration, removal, transfers)
+        - Activity management (create, edit, delete, schedule)
+        - Communication tools (emails, notifications, announcements)
+        - Reporting and analytics (attendance, participation, exports)
+        - Teacher/staff management (permissions, roles, access)
+        - Data management (import, export, backup)
+        - Approval workflows (signup approvals, waitlists)
+        - Calendar and scheduling tools
+        - Integration with school systems
+        - Security and authentication features
+        - Other administrative tools
+    validations:
+      required: true
+
+  - type: textarea
+    id: admin-problem
+    attributes:
+      label: Administrative Challenge
+      description: What administrative task is currently difficult or impossible to do?
+      placeholder: "Example: When we need to cancel an activity due to weather, there's no way to quickly notify all 30 registered students. We have to manually email each parent individually."
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-workflow
+    attributes:
+      label: Current Manual Process
+      description: Describe how you currently handle this task manually (if at all)
+      placeholder: |
+        Example current process:
+        1. Look up activity in the system
+        2. Copy each student email one by one
+        3. Create individual emails or one large BCC email
+        4. Type the same message 30 times or risk privacy issues with mass email
+        5. Send emails and hope everyone receives them
+        6. Answer phone calls from confused parents
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Administrative Solution
+      description: Describe the administrative feature you envision
+      placeholder: "Example: Add a 'Send Notification' button on each activity page that lets teachers send emails to all registered students at once, with options for different message types (cancellation, reminder, update, etc.)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-permissions
+    attributes:
+      label: Who should have access to this feature?
+      description: Define the permission level required for this administrative function
+      options:
+        - All teachers/staff
+        - Activity supervisors only
+        - Department heads only
+        - School administrators only
+        - Specific roles (define in comments)
+        - Configurable permissions
+    validations:
+      required: true
+
+  - type: textarea
+    id: detailed-requirements
+    attributes:
+      label: Detailed Administrative Requirements
+      description: List specific requirements and functionality needed
+      placeholder: |
+        Example requirements:
+        - Button appears only for teachers logged into the system
+        - Pre-written message templates for common situations (cancellation, reminder, schedule change)
+        - Option to send to all students or select specific students
+        - Include student name in personalized messages
+        - Copy parents/guardians on emails automatically
+        - Log all sent messages for record-keeping
+        - Preview message before sending
+        - Confirmation dialog to prevent accidental sends
+    validations:
+      required: true
+
+  - type: dropdown
+    id: data-requirements
+    attributes:
+      label: What student/activity data does this feature need access to?
+      description: Identify what information the feature requires
+      options:
+        - Student names and emails only
+        - Parent/guardian contact information
+        - Activity schedules and details
+        - Student enrollment history
+        - Teacher assignments and permissions
+        - School calendar integration
+        - External system data
+        - No additional data needed
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Administrative Priority
+      description: How critical is this feature for school operations?
+      options:
+        - Critical - Needed for daily operations
+        - High - Would save significant time/effort
+        - Medium - Useful improvement to current processes
+        - Low - Nice to have when time permits
+    validations:
+      required: true
+
+  - type: textarea
+    id: success-criteria
+    attributes:
+      label: Success Criteria
+      description: How will we know this administrative feature is working correctly?
+      placeholder: |
+        Example success criteria:
+        - Teachers can send notifications to activity participants in under 2 minutes
+        - Message templates reduce typing time by 80%
+        - All sent messages are logged with timestamps
+        - No accidental mass emails due to confirmation dialogs
+        - Parents report receiving timely, clear communication
+        - Feature works on both desktop and mobile devices
+        - Integration with existing login system works seamlessly
+    validations:
+      required: true
+
+  - type: textarea
+    id: security-considerations
+    attributes:
+      label: Security and Privacy Considerations
+      description: What security or privacy concerns should be addressed?
+      placeholder: "Example: Ensure only authorized teachers can send messages. Protect student email addresses from unauthorized access. Log all administrative actions for audit purposes."
+
+  - type: textarea
+    id: integration-needs
+    attributes:
+      label: Integration Requirements
+      description: Does this feature need to work with other school systems or tools?
+      placeholder: "Example: Should integrate with school's main email system (Gmail/Outlook). May need to sync with student information system for updated contact info."
+
+  - type: dropdown
+    id: time-frame
+    attributes:
+      label: Implementation Timeline
+      description: When do you need this administrative feature?
+      options:
+        - ASAP - Urgent operational need
+        - Before next semester/quarter
+        - This school year
+        - Next school year
+        - No specific deadline
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other details about administrative workflows, constraints, or requirements
+      placeholder: "Example: Our school district has specific email policies we must follow. The feature should work for multiple schools if possible."
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      description: Please confirm the following
+      options:
+        - label: I have administrative authority to request this feature for the school
+          required: true
+        - label: This feature addresses a real operational need, not just a personal preference
+          required: true
+        - label: I understand this may require additional security and permission considerations
+          required: true

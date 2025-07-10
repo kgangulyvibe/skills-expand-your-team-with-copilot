@@ -1,0 +1,153 @@
+name: 🎨 Content & Branding Update
+description: Request changes to website content, colors, images, or branding
+title: "[Content]: "
+labels: ["content", "design", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve our school's online presence! Please provide specific details about the content or branding changes you'd like to see.
+
+  - type: input
+    id: update-title
+    attributes:
+      label: Update Title
+      description: Brief description of the content/branding change needed
+      placeholder: "Example: Update website colors to match school colors (white and lime green)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: update-type
+    attributes:
+      label: Type of Update
+      description: What kind of content or branding change do you need?
+      options:
+        - School colors and theme
+        - Logo or mascot images
+        - Text content (titles, descriptions, messages)
+        - School information (name, address, contact)
+        - Activity descriptions or details
+        - Website layout or styling
+        - Images or graphics
+        - Footer or header content
+        - Other branding elements
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-content
+    attributes:
+      label: Current Content/Appearance
+      description: Describe what currently appears on the website that needs to be changed
+      placeholder: "Example: The website currently uses blue colors throughout, but our school colors are white and lime green."
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired-content
+    attributes:
+      label: Desired Content/Appearance
+      description: Describe exactly what you want it to look like or say instead
+      placeholder: "Example: Change the primary color scheme to white background with lime green accents. Update buttons, headers, and highlights to use lime green (#32CD32)."
+    validations:
+      required: true
+
+  - type: input
+    id: school-colors
+    attributes:
+      label: Official School Colors (if applicable)
+      description: Provide hex codes or color names if this is a color-related change
+      placeholder: "Example: Primary: Lime Green (#32CD32), Secondary: White (#FFFFFF), Accent: Dark Green (#228B22)"
+
+  - type: textarea
+    id: specific-locations
+    attributes:
+      label: Specific Locations to Update
+      description: List exactly where on the website these changes should appear
+      placeholder: |
+        Example:
+        - Header background and navigation
+        - Activity cards and buttons
+        - Footer styling
+        - Form elements (signup buttons, input fields)
+        - All accent colors throughout the site
+    validations:
+      required: true
+
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources Provided
+      description: Do you have any images, logos, style guides, or color specifications to use?
+      placeholder: "Example: Our official logo is available at [URL] or attach files here. School brand guidelines specify Pantone 376 (lime green)."
+
+  - type: textarea
+    id: mascot-requirements
+    attributes:
+      label: Mascot/Image Requirements (if applicable)
+      description: If requesting mascot or image changes, provide specific requirements
+      placeholder: "Example: Please use images from https://octodex.github.com/ that represent our school spirit. Prefer energetic, school-themed characters."
+
+  - type: dropdown
+    id: pages-affected
+    attributes:
+      label: Which pages should be updated?
+      description: Select the scope of the changes
+      options:
+        - All pages (site-wide change)
+        - Homepage only
+        - Activity listing page
+        - Individual activity pages
+        - Login/admin pages
+        - Specific pages (describe in comments)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Timeline
+      description: When do you need this change completed?
+      options:
+        - ASAP - Urgent (special event, inspection, etc.)
+        - Within 1 week
+        - Within 1 month
+        - No specific deadline
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will we know this update is complete and correct?
+      placeholder: |
+        Example:
+        - Primary navigation uses lime green background
+        - All buttons change from blue to lime green on hover
+        - Activity cards have lime green borders
+        - School mascot image appears in the header
+        - Colors match the provided hex codes exactly
+        - Changes are visible on both desktop and mobile
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other requirements, constraints, or information about this update
+      placeholder: "Example: This needs to be done before the school board meeting next Friday. Please ensure colors are accessible for colorblind users."
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      description: Please confirm the following
+      options:
+        - label: I have authority to request these branding changes for the school
+          required: true
+        - label: I have provided specific details about what needs to change
+          required: true

@@ -1,0 +1,116 @@
+name: 🐛 Bug Report
+description: Report a problem with the school activities website
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out this form to help our Copilot coding agent understand and fix the issue quickly.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Bug Summary
+      description: A clear and concise description of what the bug is
+      placeholder: "Example: The signup button doesn't work when clicking on Basketball activity"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: What area of the website is affected?
+      description: Select the main area where you noticed the problem
+      options:
+        - Activity listing page
+        - Activity signup/registration
+        - Search and filtering
+        - User login/authentication
+        - Teacher admin features
+        - Website appearance/styling
+        - Mobile/tablet display
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: Current Behavior
+      description: Describe what currently happens when you encounter the bug
+      placeholder: "Example: When I click the 'Sign Up' button for Basketball, nothing happens and no error message appears"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: Describe what should happen instead
+      placeholder: "Example: The signup form should open allowing me to enter student email and register them for Basketball"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: List the exact steps to reproduce the bug
+      placeholder: |
+        1. Go to the activities page
+        2. Find the Basketball activity
+        3. Click the 'Sign Up' button
+        4. Notice that nothing happens
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Browser/Device
+      description: What browser or device were you using?
+      options:
+        - Chrome (Windows)
+        - Chrome (Mac)
+        - Safari (Mac)
+        - Firefox (Windows)
+        - Firefox (Mac)
+        - Edge (Windows)
+        - Mobile browser (iPhone)
+        - Mobile browser (Android)
+        - Tablet browser
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: How urgent is this issue?
+      description: Help us prioritize the fix
+      options:
+        - High - Blocks important school functions
+        - Medium - Affects some users or features
+        - Low - Minor inconvenience
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here (screenshots, error messages, etc.)
+      placeholder: "You can drag and drop screenshots here, or describe any error messages you see"
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      description: Please confirm the following
+      options:
+        - label: I have checked that this issue hasn't already been reported
+          required: true
+        - label: I can consistently reproduce this issue
+          required: true
