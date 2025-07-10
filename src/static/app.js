@@ -394,7 +394,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const queryString =
         queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
-      const response = await fetch(`/activities${queryString}`);
+      const response = await fetch(`/activities/${queryString}`);
+      if (!response.ok) {
+        let errorText = `Failed to load activities. (Status: ${response.status})`;
+        try {
+          const errorData = await response.json();
+          if (errorData.detail) errorText += `\n${errorData.detail}`;
+        } catch (e) {
+          // Ignore JSON parse errors
+        }
+        activitiesList.innerHTML = `<p>${errorText}</p>`;
+        console.error("Error fetching activities:", response.status, response.statusText);
+        return;
+      }
       const activities = await response.json();
 
       // Save the activities data
