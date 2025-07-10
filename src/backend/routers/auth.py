@@ -6,11 +6,7 @@ from fastapi import APIRouter, HTTPException
 from typing import Dict, Any
 from argon2 import PasswordHasher
 
-try:
-    from ..database import teachers_collection
-except:
-    # Fallback to in-memory database if MongoDB is not available
-    from ..database_memory import teachers_collection
+from ..database_memory import teachers_collection
 
 router = APIRouter(
     prefix="/auth",

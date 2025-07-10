@@ -6,11 +6,7 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from typing import Dict, Any, Optional, List
 
-try:
-    from ..database import activities_collection, teachers_collection
-except:
-    # Fallback to in-memory database if MongoDB is not available
-    from ..database_memory import activities_collection, teachers_collection
+from ..database_memory import activities_collection, teachers_collection
 
 router = APIRouter(
     prefix="/activities",
@@ -21,14 +17,16 @@ router = APIRouter(
 def get_activities(
     day: Optional[str] = None,
     start_time: Optional[str] = None,
-    end_time: Optional[str] = None
+    end_time: Optional[str] = None,
+    difficulty: Optional[str] = None
 ) -> Dict[str, Any]:
     """
-    Get all activities with their details, with optional filtering by day and time
+    Get all activities with their details, with optional filtering by day, time, and difficulty
     
     - day: Filter activities occurring on this day (e.g., 'Monday', 'Tuesday')
     - start_time: Filter activities starting at or after this time (24-hour format, e.g., '14:30')
     - end_time: Filter activities ending at or before this time (24-hour format, e.g., '17:00')
+    - difficulty: Filter activities by difficulty level ('Beginner', 'Intermediate', 'Advanced', or 'All' for no difficulty specified)
     """
     # Build the query based on provided filters
     query = {}
@@ -46,6 +44,18 @@ def get_activities(
     activities = {}
     for activity in activities_collection.find(query):
         name = activity.pop('_id')
+        
+        # Apply difficulty filter after database query since it needs special logic
+        if difficulty:
+            if difficulty == "All":
+                # "All" means activities with no difficulty specified
+                if "difficulty" in activity:
+                    continue
+            else:
+                # Filter by specific difficulty level
+                if activity.get("difficulty") != difficulty:
+                    continue
+        
         activities[name] = activity
     
     return activities
