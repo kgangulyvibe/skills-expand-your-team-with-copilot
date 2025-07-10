@@ -1,0 +1,182 @@
+name: 🚀 User Experience Improvement
+description: Request improvements to make the website easier to use and more accessible
+title: "[UX]: "
+labels: ["ux", "improvement", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping make our website more user-friendly! Please describe the user experience issue and your suggested improvements.
+
+  - type: input
+    id: ux-title
+    attributes:
+      label: UX Improvement Title
+      description: Brief description of the user experience improvement needed
+      placeholder: "Example: Make activity signup process easier for parents on mobile devices"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-group
+    attributes:
+      label: Who is experiencing the difficulty?
+      description: Which users are having trouble with the current experience?
+      options:
+        - Students
+        - Teachers/Staff
+        - Parents/Guardians
+        - School administrators
+        - Mobile users specifically
+        - Desktop users specifically
+        - Users with disabilities
+        - All users
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ux-area
+    attributes:
+      label: What area needs improvement?
+      description: Select the main area of the website that needs UX improvements
+      options:
+        - Navigation and menu structure
+        - Activity browsing and search
+        - Signup/registration process
+        - Login and authentication
+        - Mobile responsiveness
+        - Page loading speed
+        - Form interactions
+        - Visual clarity and readability
+        - Accessibility features
+        - Error messages and feedback
+        - Overall information architecture
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-experience
+    attributes:
+      label: Current User Experience Problem
+      description: Describe the current difficulty or frustration users are experiencing
+      placeholder: "Example: Parents trying to sign up their kids for activities on mobile phones have to zoom in and scroll horizontally to see the signup form. The buttons are too small to tap accurately."
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired-experience
+    attributes:
+      label: Desired User Experience
+      description: Describe how you want the experience to work instead
+      placeholder: "Example: The signup form should be mobile-friendly with larger buttons, proper spacing, and no horizontal scrolling required. All text should be readable without zooming."
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-scenarios
+    attributes:
+      label: User Scenarios
+      description: Provide specific examples of how users currently struggle and how they should succeed
+      placeholder: |
+        Example scenarios:
+        
+        Current struggle:
+        1. Parent opens website on phone
+        2. Finds Basketball activity  
+        3. Clicks "Sign Up" but button is too small
+        4. Form appears but is cut off on screen
+        5. Parent gives up in frustration
+        
+        Desired success:
+        1. Parent opens website on phone
+        2. Finds Basketball activity easily
+        3. Clicks large, touch-friendly "Sign Up" button
+        4. Form displays properly on mobile screen
+        5. Parent completes signup quickly
+    validations:
+      required: true
+
+  - type: dropdown
+    id: accessibility
+    attributes:
+      label: Are there accessibility concerns?
+      description: Does this improvement relate to accessibility for users with disabilities?
+      options:
+        - Yes - Visual impairments (screen readers, low vision)
+        - Yes - Motor impairments (difficulty with mouse/touch)
+        - Yes - Cognitive impairments (clear language, simple navigation)
+        - Yes - Hearing impairments (captions, visual indicators)
+        - Yes - Multiple accessibility issues
+        - No - General usability improvement
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Impact Level
+      description: How significantly does this UX issue affect users?
+      options:
+        - High - Users cannot complete important tasks
+        - Medium - Users struggle but can eventually succeed
+        - Low - Minor inconvenience or cosmetic issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: success-metrics
+    attributes:
+      label: Success Criteria
+      description: How will we measure that this UX improvement is successful?
+      placeholder: |
+        Example:
+        - Mobile users can complete signup without zooming or horizontal scrolling
+        - Signup completion rate increases on mobile devices
+        - No user complaints about mobile signup difficulties
+        - All interactive elements meet minimum touch target size (44px)
+        - Forms are keyboard navigable for screen reader users
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or References
+      description: Are there other websites or apps that handle this experience well?
+      placeholder: "Example: The school district's main website has a mobile-friendly event signup that works well. Also, sites like Eventbrite make mobile registration very smooth."
+
+  - type: dropdown
+    id: devices-affected
+    attributes:
+      label: Which devices/platforms are affected?
+      description: Where is this UX problem most noticeable?
+      options:
+        - Mobile phones (all)
+        - Mobile phones (iPhone specifically)
+        - Mobile phones (Android specifically)
+        - Tablets
+        - Desktop computers
+        - All devices
+        - Specific browsers (describe in comments)
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other details about user feedback, testing, or requirements
+      placeholder: "Example: We've received 5 complaints from parents about mobile signup difficulties. The PTA meeting highlighted this as a major concern."
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      description: Please confirm the following
+      options:
+        - label: I have observed this UX issue firsthand or received user feedback about it
+          required: true
+        - label: This improvement would benefit multiple users, not just one person
+          required: true

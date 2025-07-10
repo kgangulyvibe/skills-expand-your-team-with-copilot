@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Development Documentation
+    url: https://github.com/kgangulyvibe/skills-expand-your-team-with-copilot/blob/main/docs/how-to-develop.md
+    about: Learn how to set up and develop the school activities website
+  - name: 💬 General Questions
+    url: https://github.com/kgangulyvibe/skills-expand-your-team-with-copilot/discussions
+    about: Ask questions or start discussions about the website
