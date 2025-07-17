@@ -1,15 +1,117 @@
 """
-MongoDB database configuration and setup for Mergington High School API
+In-memory database configuration for Mergington High School API
 """
 
-from pymongo import MongoClient
 from argon2 import PasswordHasher
 
-# Connect to MongoDB
-client = MongoClient('mongodb://localhost:27017/')
-db = client['mergington_high']
-activities_collection = db['activities']
-teachers_collection = db['teachers']
+# In-memory storage
+activities_data = {}
+teachers_data = {}
+
+# Mock collection classes to mimic MongoDB interface
+class MockCollection:
+    def __init__(self, data_dict):
+        self.data = data_dict
+    
+    def find(self, query=None):
+        if query is None:
+            query = {}
+        
+        results = []
+        for doc_id, doc in self.data.items():
+            # Simple query matching
+            match = True
+            for key, value in query.items():
+                if key == "schedule_details.days":
+                    # Handle the $in operator for days
+                    if "$in" in value:
+                        days_to_match = value["$in"]
+                        if "schedule_details" not in doc or "days" not in doc["schedule_details"]:
+                            match = False
+                            break
+                        if not any(day in doc["schedule_details"]["days"] for day in days_to_match):
+                            match = False
+                            break
+                elif key == "schedule_details.start_time":
+                    # Handle $gte operator
+                    if "$gte" in value:
+                        min_time = value["$gte"]
+                        if "schedule_details" not in doc or "start_time" not in doc["schedule_details"]:
+                            match = False
+                            break
+                        if doc["schedule_details"]["start_time"] < min_time:
+                            match = False
+                            break
+                elif key == "schedule_details.end_time":
+                    # Handle $lte operator
+                    if "$lte" in value:
+                        max_time = value["$lte"]
+                        if "schedule_details" not in doc or "end_time" not in doc["schedule_details"]:
+                            match = False
+                            break
+                        if doc["schedule_details"]["end_time"] > max_time:
+                            match = False
+                            break
+                else:
+                    # Simple equality check
+                    if key not in doc or doc[key] != value:
+                        match = False
+                        break
+            
+            if match:
+                result = doc.copy()
+                result["_id"] = doc_id
+                results.append(result)
+        
+        return results
+    
+    def find_one(self, query):
+        results = self.find(query)
+        return results[0] if results else None
+    
+    def count_documents(self, query):
+        return len(self.find(query))
+    
+    def insert_one(self, doc):
+        doc_id = doc.pop("_id")
+        self.data[doc_id] = doc
+        return type('MockResult', (), {'inserted_id': doc_id})()
+    
+    def update_one(self, query, update):
+        results = self.find(query)
+        if results:
+            doc_id = results[0]["_id"]
+            doc = self.data[doc_id]
+            
+            # Handle $push operation
+            if "$push" in update:
+                for field, value in update["$push"].items():
+                    if field not in doc:
+                        doc[field] = []
+                    doc[field].append(value)
+            
+            # Handle $pull operation
+            if "$pull" in update:
+                for field, value in update["$pull"].items():
+                    if field in doc and isinstance(doc[field], list):
+                        doc[field] = [item for item in doc[field] if item != value]
+            
+            return type('MockResult', (), {'modified_count': 1})()
+        return type('MockResult', (), {'modified_count': 0})()
+    
+    def aggregate(self, pipeline):
+        # Simple implementation for the days aggregation
+        if len(pipeline) == 3 and "$unwind" in pipeline[0] and "$group" in pipeline[1]:
+            days = set()
+            for doc in self.data.values():
+                if "schedule_details" in doc and "days" in doc["schedule_details"]:
+                    days.update(doc["schedule_details"]["days"])
+            return [{"_id": day} for day in sorted(days)]
+        return []
+
+# Create mock collections
+activities_collection = MockCollection(activities_data)
+teachers_collection = MockCollection(teachers_data)
 
 # Methods
 def hash_password(password):

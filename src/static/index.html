@@ -43,26 +43,38 @@
             </div>
 
             <div class="filter-container">
-              <div class="filter-label">Filter by category:</div>
-              <div class="category-filters" id="category-filters">
-                <button class="category-filter active" data-category="all">
-                  All
-                </button>
-                <button class="category-filter" data-category="sports">
-                  Sports
-                </button>
-                <button class="category-filter" data-category="arts">
-                  Arts
-                </button>
-                <button class="category-filter" data-category="academic">
-                  Academic
-                </button>
-                <button class="category-filter" data-category="community">
-                  Community
-                </button>
-                <button class="category-filter" data-category="technology">
-                  Technology
-                </button>
+              <!-- View Mode Toggle -->
+              <div class="view-mode-container">
+                <div class="filter-label">View mode:</div>
+                <div class="view-mode-toggle">
+                  <button id="filter-mode" class="view-mode-btn active">Filter</button>
+                  <button id="group-mode" class="view-mode-btn">Group By</button>
+                </div>
+              </div>
+              
+              <!-- Category controls -->
+              <div id="category-controls">
+                <div class="filter-label" id="category-label">Filter by category:</div>
+                <div class="category-filters" id="category-filters">
+                  <button class="category-filter active" data-category="all">
+                    All
+                  </button>
+                  <button class="category-filter" data-category="sports">
+                    Sports
+                  </button>
+                  <button class="category-filter" data-category="arts">
+                    Arts
+                  </button>
+                  <button class="category-filter" data-category="academic">
+                    Academic
+                  </button>
+                  <button class="category-filter" data-category="community">
+                    Community
+                  </button>
+                  <button class="category-filter" data-category="technology">
+                    Technology
+                  </button>
+                </div>
               </div>
             </div>
 

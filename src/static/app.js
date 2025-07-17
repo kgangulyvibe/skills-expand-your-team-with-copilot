@@ -15,6 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const dayFilters = document.querySelectorAll(".day-filter");
   const timeFilters = document.querySelectorAll(".time-filter");
 
+  // View mode elements
+  const filterModeBtn = document.getElementById("filter-mode");
+  const groupModeBtn = document.getElementById("group-mode");
+  const categoryControls = document.getElementById("category-controls");
+  const categoryLabel = document.getElementById("category-label");
+
   // Authentication elements
   const loginButton = document.getElementById("login-button");
   const userInfo = document.getElementById("user-info");
@@ -40,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchQuery = "";
   let currentDay = "";
   let currentTimeRange = "";
+  let viewMode = "filter"; // "filter" or "group"
 
   // Authentication state
   let currentUser = null;
@@ -96,6 +103,47 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     fetchActivities();
+  }
+
+  // Function to set view mode
+  function setViewMode(mode) {
+    viewMode = mode;
+    
+    // Update active button states
+    if (mode === "filter") {
+      filterModeBtn.classList.add("active");
+      groupModeBtn.classList.remove("active");
+      categoryLabel.textContent = "Filter by category:";
+      document.body.classList.remove("grouped-view");
+    } else {
+      groupModeBtn.classList.add("active");
+      filterModeBtn.classList.remove("active");
+      categoryLabel.textContent = "Categories included:";
+      document.body.classList.add("grouped-view");
+      // In group mode, reset category filter to "all" to show all categories
+      setFilterView("all", false); // false to avoid re-fetching
+    }
+    
+    // Update the display
+    displayFilteredActivities();
+  }
+
+  // Helper function to set filter without triggering fetch
+  function setFilterView(category, shouldFetch = true) {
+    currentFilter = category;
+    
+    // Update active class
+    categoryFilters.forEach((btn) => {
+      if (btn.dataset.category === category) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+    
+    if (shouldFetch) {
+      displayFilteredActivities();
+    }
   }
 
   // Check if user is already logged in (from localStorage)
@@ -426,14 +474,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear the activities list
     activitiesList.innerHTML = "";
 
-    // Apply client-side filtering - this handles category filter and search, plus weekend filter
+    // Apply client-side filtering - this handles day/time filters and search
     let filteredActivities = {};
 
     Object.entries(allActivities).forEach(([name, details]) => {
       const activityType = getActivityType(name, details.description);
 
-      // Apply category filter
-      if (currentFilter !== "all" && activityType !== currentFilter) {
+      // Apply category filter only in filter mode
+      if (viewMode === "filter" && currentFilter !== "all" && activityType !== currentFilter) {
         return;
       }
 
@@ -478,14 +526,89 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Display filtered activities
+    // Display activities based on view mode
+    if (viewMode === "group") {
+      displayGroupedActivities(filteredActivities);
+    } else {
+      // Display filtered activities in regular grid
+      Object.entries(filteredActivities).forEach(([name, details]) => {
+        renderActivityCard(name, details);
+      });
+    }
+  }
+
+  // Function to display activities grouped by category
+  function displayGroupedActivities(filteredActivities) {
+    // Group activities by category
+    const groupedActivities = {};
+    
     Object.entries(filteredActivities).forEach(([name, details]) => {
-      renderActivityCard(name, details);
+      const activityType = getActivityType(name, details.description);
+      
+      if (!groupedActivities[activityType]) {
+        groupedActivities[activityType] = [];
+      }
+      
+      groupedActivities[activityType].push([name, details]);
+    });
+
+    // Sort categories to ensure consistent order
+    const categoryOrder = ["sports", "arts", "academic", "technology", "community"];
+    const sortedCategories = categoryOrder.filter(cat => groupedActivities[cat]);
+    
+    // Add any categories not in the predefined order
+    Object.keys(groupedActivities).forEach(cat => {
+      if (!categoryOrder.includes(cat)) {
+        sortedCategories.push(cat);
+      }
+    });
+
+    // Render each category group
+    sortedCategories.forEach(categoryType => {
+      const activities = groupedActivities[categoryType];
+      if (activities.length === 0) return;
+
+      // Create category group container
+      const categoryGroup = document.createElement("div");
+      categoryGroup.className = "category-group";
+
+      // Create category header
+      const categoryHeader = document.createElement("div");
+      categoryHeader.className = "category-group-header";
+      
+      const categoryTitle = document.createElement("h3");
+      categoryTitle.className = "category-group-title";
+      categoryTitle.textContent = activityTypes[categoryType]?.label || categoryType;
+      
+      const categoryCount = document.createElement("span");
+      categoryCount.className = "category-group-count";
+      categoryCount.textContent = `${activities.length} ${activities.length === 1 ? 'activity' : 'activities'}`;
+      
+      categoryHeader.appendChild(categoryTitle);
+      categoryHeader.appendChild(categoryCount);
+
+      // Create activities container for this category
+      const activitiesContainer = document.createElement("div");
+      activitiesContainer.className = "category-group-activities";
+
+      // Render activity cards for this category
+      activities.forEach(([name, details]) => {
+        const card = createActivityCardElement(name, details);
+        activitiesContainer.appendChild(card);
+      });
+
+      // Assemble the group
+      categoryGroup.appendChild(categoryHeader);
+      categoryGroup.appendChild(activitiesContainer);
+      
+      // Add to main container
+      activitiesList.appendChild(categoryGroup);
     });
   }
 
   // Function to render a single activity card
-  function renderActivityCard(name, details) {
+  // Function to create an activity card element (reusable for both modes)
+  function createActivityCardElement(name, details) {
     const activityCard = document.createElement("div");
     activityCard.className = "activity-card";
 
@@ -599,6 +722,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    return activityCard;
+  }
+
+  // Function to render a single activity card (for filter mode)
+  function renderActivityCard(name, details) {
+    const activityCard = createActivityCardElement(name, details);
     activitiesList.appendChild(activityCard);
   }
 
@@ -617,14 +746,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add event listeners to category filter buttons
   categoryFilters.forEach((button) => {
     button.addEventListener("click", () => {
-      // Update active class
-      categoryFilters.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-
-      // Update current filter and display filtered activities
-      currentFilter = button.dataset.category;
-      displayFilteredActivities();
+      // Only allow category filtering in filter mode
+      if (viewMode === "filter") {
+        setFilterView(button.dataset.category);
+      }
     });
+  });
+
+  // Add event listeners for view mode toggle
+  filterModeBtn.addEventListener("click", () => {
+    setViewMode("filter");
+  });
+
+  groupModeBtn.addEventListener("click", () => {
+    setViewMode("group");
   });
 
   // Add event listeners to day filter buttons
